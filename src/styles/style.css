@@ -2,3 +2,21 @@
    background: var(--clr-primary-light);
    box-shadow: 0 0 0 3px var(--clr-primary);
 }
+
+.char.success {
+   background: var(--clr-success-light);
+   color: var(--clr-success-dark);
+}
+
+.char.danger {
+   background: var(--clr-danger-light);
+   color: var(--clr-danger-dark);
+   animation: danger 0.2s;
+}
+
+@keyframes danger {
+   0%  { transform: rotate(5deg) translateX(5px); }
+   25% { transform: rotate(-5deg) translateX(-5px); }
+   50% { transform: rotate(5deg) translateX(5px); }
+   75% { transform: rotate(-5deg) translateX(-5px); }
+}

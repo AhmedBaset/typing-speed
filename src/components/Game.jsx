@@ -1,61 +1,83 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useContext, useRef } from "react";
 import Character from "./Character";
-import texts from "./../texts";
+import Finish from "./Finish"
+
+import { ResultContext } from "./../App";
 
 function Game() {
-	const [isStart, setIsStart] = useState(false);
-	const [letters, setLetters] = useState();
+	const { isStart, setIsStart, isFinish, setIsFinish, setTime, txt, charCount, setCharCount } = useContext(ResultContext);
+	const game = useRef();
 
+	// Start Game
 	function startGame() {
 		setIsStart(true);
+		// Reset All States
+		setIsFinish(false)
+		setCharCount(0);
+		setTime(0);
 	}
-	// Script Text:
-	const txt = texts[Math.floor(Math.random() * texts.length)].split("");
 
-	// Focus the character:
-	const gameRef = useRef();
-	const game = gameRef.current;
+	// End Game
+	function endGame() {
+		// Reset All States
+		setIsStart(false);
+		setIsFinish(true)
+	}
 
-	useEffect(() => {
-		setLetters(document.getElementsByClassName("char"));
-		// console.log(letters);
+	function focusCurrent() {
+		const active = document.querySelectorAll(".char")[charCount];
+		active && active.focus();
+	}
 
-		// Add event to each character
-		// if (typeof letters === "object") {
-		//    console.log(typeof letters);
-		//    // letters.map((l) => {
-		// 	// 	l.addEventListener("change", (e) => {
-		// 	// 		console.log(e);
-		// 	// 	});
-		// 	// });
-		// }
-	}, [isStart, game]);
-
+	// Render
 	return (
-		<div className="bg-white m-y-150 p-1 rounded">
-			{!isStart && (
-				<div className="flex-center">
-					<button className="btn-primary" onClick={startGame}>
-						Play Now
-					</button>
-				</div>
-			)}
+		<>
+			<section onClick={focusCurrent} className="bg-white p-1 m-y-1 rounded">
+				{!isStart && (
+					<div className="flex-center flex-grow-1">
+						<button
+							className="btn-primary"
+							onClick={startGame}
+							autoFocus={true}
+						>
+							Play Now
+						</button>
+					</div>
+				)}
+				{isStart && (
+					<div
+						ref={game}
+						className="overflow-hidden relative"
+						style={{ height: "50vh" }}
+						id="game"
+					>
+						{txt &&
+							txt.map((c, i) => (
+								<Character
+									key={i}
+									value={c}
+									id={"id" + i}
+									focus={i === 0 ? true : false}
+									disabled={i !== charCount ? true : false}
+									index={i}
+									endGame={endGame}
+								/>
+							))}
+					</div>
+				)}
+			</section>
 			{isStart && (
-				<div ref={gameRef} id="game">
-					{txt &&
-						txt.map((c, i) => (
-							<Character
-								key={i}
-								value={c}
-								id={"id" + i}
-								focus={i === 0 ? true : false}
-								index={i}
-							/>
-						))}
-				</div>
+				<section className="m-b-1 bg-white p-1 rounded-1">
+					<button className="btn-warning" onClick={endGame}>
+						Surrender
+					</button>
+				</section>
 			)}
-		</div>
+			{	isFinish && (
+				<Finish />
+			)}
+		</>
 	);
 }
 
-export default Game;
+export default memo(Game);
