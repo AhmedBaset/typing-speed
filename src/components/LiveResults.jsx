@@ -15,33 +15,33 @@ function LiveResults() {
 			  }:${time % 60 < 10 ? `0${time % 60}` : time % 60}`;
 
 	return (
-		<section className="bg-white rounded-1 p-1 m-t-1 grid-6 gap">
-			<div className="border-x-between border-dashed text-center p-05 flex-center flex-column">
-				<h3 className="fs-1 fw-400 m-0">Time</h3>
-				<p className="clr-primary fs-3 fw-600 m-0 p-0">{t}</p>
+		<section className="grid-6 gap">
+			<div className="border-x-between text-center p-05 flex-center flex-column">
+				<h3 className="fs-1 fw-500 m-0">Time</h3>
+				<p className="clr-primary fs-3 fw-700 m-0 p-0">{t}</p>
 			</div>
-			<div className="border-x-between border-dashed text-center p-05 flex-center flex-column">
-				<h3 className="fs-1 fw-400 m-0">words count</h3>
+			<div className="border-x-between text-center p-05 flex-center flex-column">
+				<h3 className="fs-1 fw-500 m-0">words count</h3>
 				<p className="fw-500">
-					<span className="clr-primary fs-3 fw-600 m-0 p-0">
-						{Math.round((60 / time) * (charCount / 5)) || 0}
+					<span className="clr-primary fs-3 fw-700 m-0 p-0">
+						{Math.round((60 / time) * (charCorrectCount / 5)) || 0}
 					</span>{" "}
 					WPM
 				</p>
 			</div>
-			<div className="border-x-between border-dashed text-center p-05 flex-center flex-column">
-				<h3 className="fs-1 fw-400 m-0">Characters count</h3>
+			<div className="border-x-between text-center p-05 flex-center flex-column">
+				<h3 className="fs-1 fw-500 m-0">Characters count</h3>
 				<p className="fw-500">
-					<span className="clr-primary fs-3 fw-600 m-0 p-0">
+					<span className="clr-primary fs-3 fw-700 m-0 p-0">
 						{charCount}
 					</span>{" "}
-					CH
+					Ch
 				</p>
 			</div>
-			<div className="border-x-between border-dashed text-center p-05 flex-center flex-column">
-				<h3 className="fs-1 fw-400 m-0">Accuracy</h3>
+			<div className="border-x-between text-center p-05 flex-center flex-column">
+				<h3 className="fs-1 fw-500 m-0">Accuracy</h3>
 				<p className="fw-500">
-					<span className="clr-primary fs-3 fw-600 m-0 p-0">
+					<span className="clr-primary fs-3 fw-700 m-0 p-0">
 						{charCount
 							? Math.round((charCorrectCount / charCount) * 100)
 							: 0}

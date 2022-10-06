@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useContext, memo } from "react";
 import { ResultContext } from "./../App";
 
 const styles = {
-	fontFamily: `"Inconsolata", monospace`,
+	fontFamily: `monospace`,
 	width: "1.1ch",
 };
 

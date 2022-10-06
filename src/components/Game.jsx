@@ -32,9 +32,13 @@ function Game() {
 	// Render
 	return (
 		<>
-			<section onClick={focusCurrent} className="bg-white p-1 m-y-1 rounded">
+			<section onClick={focusCurrent}>
 				{!isStart && (
-					<div className="flex-center flex-grow-1">
+					<div
+						className="flex-center flex-grow-1 flex-column gap"
+						style={{ height: "50vh" }}
+					>
+						<h2 className="fs-2">Let's take a quick game!</h2>
 						<button
 							className="btn-primary"
 							onClick={startGame}
@@ -67,15 +71,13 @@ function Game() {
 				)}
 			</section>
 			{isStart && (
-				<section className="m-b-1 bg-white p-1 rounded-1">
+				<section>
 					<button className="btn-warning" onClick={endGame}>
 						Surrender
 					</button>
 				</section>
 			)}
-			{	isFinish && (
-				<Finish />
-			)}
+			{isFinish && <Finish />}
 		</>
 	);
 }
