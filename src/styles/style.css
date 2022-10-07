@@ -47,7 +47,6 @@ body {
 	box-sizing: border-box;
 	font-family: var(--font-family);
 	outline-color: var(--clr-primary);
-	transition: background 300ms, color 50ms;
 }
 p,
 div,
@@ -107,6 +106,8 @@ input:focus {
 	box-shadow: 0 0 0 5px var(--box-shadow);
 	outline: none;
 }
+.btn-warning {background-color: var(--clr-warning-dark); color: black; border-color: var(--clr-warning-dark);}
+
 
 nav,
 .nav {
@@ -374,6 +375,12 @@ input {
 	border-radius: 0.5vmin;
 	display: inline-block;
 }
+input::placeholder {
+	color: var(--clr-black);
+}
+body, section {
+	transition: background .1s, color .03s;
+}
 section {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
@@ -381,9 +388,16 @@ section {
 	padding: 1rem;
 	border-radius: 1vmin;
 }
+.char {
+	margin: .01rem;
+}
 .char:focus {
 	background: var(--clr-primary-light);
-	box-shadow: 0 0 0 3px var(--clr-primary);
+	/* box-shadow: 0 0 0 3px var(--clr-primary); */
+	box-shadow: none;
+}
+.char:focus::placeholder {
+	color: black;
 }
 
 .char.success {
@@ -413,7 +427,7 @@ section {
 }
 
 label div {
-	--color: hsl(186, 100%, 10%);
+	--color: hsl(186, 100%, 25%);
 	--bg: hsl(185, 100%, 85%);
 	background-color: var(--bg);
 	fill: var(--color);
@@ -460,4 +474,8 @@ label input:checked ~ div span.switch {
 label input:checked ~ div {
 	--color: hsl(185, 100%, 85%);
 	--bg: hsl(185, 100%, 10%);
+}
+
+@keyframes tall {
+	0% { height: 0; }
 }

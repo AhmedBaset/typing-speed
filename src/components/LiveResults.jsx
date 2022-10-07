@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ResultContext } from "./../App";
 
 function LiveResults() {
-	const { time, charCount, charCorrectCount } = useContext(ResultContext);
+	const { time, charCount, charCorrectCount, WPM, accuracy } = useContext(ResultContext);
 
 	// The time style
 	let t =
@@ -24,7 +24,7 @@ function LiveResults() {
 				<h3 className="fs-1 fw-500 m-0">words count</h3>
 				<p className="fw-500">
 					<span className="clr-primary fs-3 fw-700 m-0 p-0">
-						{Math.round((60 / time) * (charCorrectCount / 5)) || 0}
+						{WPM || 0}
 					</span>{" "}
 					WPM
 				</p>
@@ -42,9 +42,7 @@ function LiveResults() {
 				<h3 className="fs-1 fw-500 m-0">Accuracy</h3>
 				<p className="fw-500">
 					<span className="clr-primary fs-3 fw-700 m-0 p-0">
-						{charCount
-							? Math.round((charCorrectCount / charCount) * 100)
-							: 0}
+						{accuracy || 0}
 					</span>{" "}
 					%
 				</p>

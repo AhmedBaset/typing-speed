@@ -19,7 +19,8 @@ function Character({ value, id, focus, disabled, index, endGame }) {
 		if (char) {
 			// thisLetter.current.classList.add(char === value ? "success" : "danger")
 			setCharCount((v) => v + 1);
-			if (char === value) {
+
+			if (value === char) {
 				thisLetter.current.classList.add("success");
 				setCharCorrectCount((v) => v + 1);
 				setIsFocus(false);
@@ -49,7 +50,7 @@ function Character({ value, id, focus, disabled, index, endGame }) {
 			behavior: "smooth",
 		});
 	}
-	
+
 	return (
 		<>
 			<input

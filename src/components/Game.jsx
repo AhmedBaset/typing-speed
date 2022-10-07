@@ -1,27 +1,43 @@
 import React, { memo, useContext, useRef } from "react";
 import Character from "./Character";
-import Finish from "./Finish"
+import Finish from "./Finish";
 
 import { ResultContext } from "./../App";
 
 function Game() {
-	const { isStart, setIsStart, isFinish, setIsFinish, setTime, txt, charCount, setCharCount } = useContext(ResultContext);
+	const {
+		isStart,
+		setIsStart,
+		isFinish,
+		setIsFinish,
+		setTime,
+		txt,
+		charCount,
+		setCharCount,
+		charCorrectCount,
+		setCharCorrectCount,
+		setWPM, 
+		setAccuracy
+	} = useContext(ResultContext);
 	const game = useRef();
 
 	// Start Game
 	function startGame() {
 		setIsStart(true);
 		// Reset All States
-		setIsFinish(false)
+		setIsFinish(false);
 		setCharCount(0);
+		setCharCorrectCount(0);
 		setTime(0);
+		setWPM(0)
+		setAccuracy(0)
 	}
 
 	// End Game
 	function endGame() {
 		// Reset All States
 		setIsStart(false);
-		setIsFinish(true)
+		setIsFinish(true);
 	}
 
 	function focusCurrent() {
@@ -32,11 +48,14 @@ function Game() {
 	// Render
 	return (
 		<>
-			<section onClick={focusCurrent}>
+			<section
+				onClick={focusCurrent}
+				style={{ position: "relative", overflow: "hidden" }}
+			>
 				{!isStart && (
 					<div
 						className="flex-center flex-grow-1 flex-column gap"
-						style={{ height: "50vh" }}
+						style={{ height: `${isFinish ? "" : "50vh"}`, padding: "3rem" }}
 					>
 						<h2 className="fs-2">Let's take a quick game!</h2>
 						<button
@@ -69,6 +88,25 @@ function Game() {
 							))}
 					</div>
 				)}
+				<div
+					style={{
+						position: "absolute",
+						bottom: 0,
+						left: 0,
+						right: 0,
+						height: "5px",
+					}}
+				>
+					{txt && (
+						<div
+							style={{
+								height: "100%",
+								backgroundColor: "var(--clr-primary)",
+								width: `${(charCorrectCount / txt.length) * 100}%`,
+							}}
+						></div>
+					)}
+				</div>
 			</section>
 			{isStart && (
 				<section>
