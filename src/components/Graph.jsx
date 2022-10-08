@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+
+import { ResultContext } from "./../App";
 
 function Graph({
 	data,
@@ -8,37 +10,112 @@ function Graph({
 	barsColor = "skyblue",
 	barsFill = "black",
 }) {
-	const [DATA] = useState(data.slice(-14));
+	const { WPM, accuracy, history } = useContext(ResultContext);
+	const [DATA, setData] = useState(data.slice(-14));
+
+	useEffect(() => {
+		if (DATA.length !== history.slice(-15).length) {
+			setData((prev) => [
+				...prev,
+				{ date: new Date().toLocaleString(), WPM: WPM, accuracy: accuracy },
+			]);
+		}
+	}, [history]);
+
 	const [xValues, setXValues] = useState();
 	const [yValues, setYValues] = useState();
 	const [MIN, setMIN] = useState(0);
 	const [MAX, setMAX] = useState(0);
 
 	useEffect(() => {
-		if (DATA) {
-			setXValues([...DATA.map((item) => item[x])]);
-			setYValues([...DATA.map((item) => item[y])]);
-		}
+		setXValues([...DATA.map((item) => item[x])]);
+		setYValues([...DATA.map((item) => item[y])]);
 	}, [DATA]);
 
 	useEffect(() => {
 		if (yValues) {
 			setMIN(Math.min(...yValues) - 2);
-			setMAX(Math.max(...yValues) - 2);
+			setMAX(Math.max(...yValues) + 2);
 		}
 	}, [yValues]);
 
 	const [yDefaultValues, setYDefaultValues] = useState([]);
 
-	const INCREASE_BY = Math.round((MAX - MIN) / 10);
+	const INCREASE_BY = Math.round((MAX - MIN) / 10) || 1;
+
+	// MAX - MIN >= 90
+	// 	? 10
+	// 	: MAX - MIN >= 80
+	// 	? 7
+	// 	: MAX - MIN >= 75
+	// 	? 6
+	// 	: MAX - MIN >= 60
+	// 	? 5
+	// 	: MAX - MIN >= 45
+	// 	? 4
+	// 	: MAX - MIN >= 30
+	// 	? 3
+	// 	: MAX - MIN >= 15
+	// 	? 2
+	// 	: 1;
 
 	useEffect(() => {
+		const set = new Set();
+		set.add(MIN);
 		for (let i = MIN; i <= MAX; i += INCREASE_BY) {
-			setYDefaultValues((prev) => [...new Set([...prev, i])]);
+			set.add(i);
 		}
+		setYDefaultValues([...set]);
 	}, [MIN, MAX]);
 
-	if (!data) return;
+	if (!DATA) return;
+	if (DATA.length < 2) {
+		return (
+			<div
+				style={{
+					backgroundBlendMode: "difference",
+					width: "100%",
+					height: "100%",
+					overflow: "auto",
+					padding: "1rem",
+					display: "grid",
+					gridTemplateColumns: "auto 1fr",
+					gridTemplateRows: "1fr auto",
+				}}
+			>
+				<div style={{ gridArea: "1 / 1 / 2 / 2" }}></div>
+				<div style={{ gridArea: "1 / 2 / 2 / 3", position: "relative" }}>
+					<h2
+						style={{
+							position: "absolute",
+							top: "10%",
+							left: "50%",
+							transform: "translate(-50%, -50%)",
+							opacity: 0.5,
+							fontSize: "4rem",
+							textOverflow: "wrap",
+							isolation: "isolate",
+							zIndex: 1,
+						}}
+					>
+						{name.toUpperCase()}
+					</h2>
+					<h3 style={{ fontSize: "1.5rem", textAlign: "center" }}>
+						Play again to compare results (;
+					</h3>
+				</div>
+				<div
+					style={{
+						gridArea: "2 / 1 / 3 / 2",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "flex-start",
+					}}
+				></div>
+				<div style={{ gridArea: "2 / 2 / 3 / 3" }}></div>
+			</div>
+		);
+	}
 
 	return (
 		<div
@@ -163,7 +240,8 @@ function Graph({
 									writingMode: "vertical-lr",
 									padding: ".125rem",
 									fontSize: ".75rem",
-									rotate: "-45deg",
+									transform: "rotate(-45deg)",
+									transformOrigin: "top",
 								}}
 							>
 								{item}

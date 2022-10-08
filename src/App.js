@@ -39,10 +39,10 @@ function App() {
 		}
 	}, []);
 
-	useEffect(()=> {
-		console.log("History \n", history);
-		console.log("History Storage \n", historyStorage);
-	}, [history, historyStorage])
+	// useEffect(()=> {
+	// 	console.log("History \n", history);
+	// 	console.log("History Storage \n", historyStorage);
+	// }, [history, historyStorage])
 
 	// Save the result to localStorage
 	useEffect(() => {
@@ -102,8 +102,9 @@ function App() {
 	// Script Text:
 	useEffect(() => {
 		if (isStart) {
-			// setTxt(texts[Math.floor(Math.random() * texts.length)].split(""));
-			setTxt("I am ahmed abdelbaset, I am from Egypt".split(""));
+			setTxt(texts[Math.floor(Math.random() * texts.length)].split(""));
+			// For Testing =>
+			// setTxt("I am ahmed abdelbaset, I am from Egypt".split(""));
 		}
 	}, [isStart]);
 
