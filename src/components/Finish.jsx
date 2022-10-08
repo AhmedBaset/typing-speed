@@ -5,33 +5,7 @@ import Graph from "./Graph";
 import LiveResults from "./LiveResults";
 
 function Finish() {
-	const { charCount } = useContext(ResultContext);
-
-	const data = [
-		{ date: "25/12/2022", WPM: 45, accuracy: 97 },
-		{ date: "26/12/2022", WPM: 47, accuracy: 96 },
-		{ date: "27/12/2022", WPM: 40, accuracy: 99 },
-		{ date: "28/12/2022", WPM: 52, accuracy: 94 },
-		{ date: "25/12/2022", WPM: 45, accuracy: 97 },
-		{ date: "26/12/2022", WPM: 47, accuracy: 96 },
-		{ date: "27/12/2022", WPM: 40, accuracy: 99 },
-		{ date: "28/12/2022", WPM: 52, accuracy: 94 },
-		{ date: "25/12/2022", WPM: 45, accuracy: 97 },
-		{ date: "26/12/2022", WPM: 47, accuracy: 96 },
-		{ date: "27/12/2022", WPM: 40, accuracy: 99 },
-		{ date: "28/12/2022", WPM: 52, accuracy: 94 },
-		{ date: "25/12/2022", WPM: 45, accuracy: 97 },
-		{ date: "26/12/2022", WPM: 47, accuracy: 96 },
-		{ date: "27/12/2022", WPM: 40, accuracy: 99 },
-		{ date: "28/12/2022", WPM: 52, accuracy: 94 },
-		{ date: "25/12/2022", WPM: 45, accuracy: 97 },
-		{ date: "26/12/2022", WPM: 47, accuracy: 96 },
-		{ date: "27/12/2022", WPM: 40, accuracy: 99 },
-		{ date: "28/12/2022", WPM: 52, accuracy: 94 },
-		{ date: "25/12/2022", WPM: 45, accuracy: 97 },
-		{ date: "26/12/2022", WPM: 47, accuracy: 96 },
-		{ date: "27/12/2022", WPM: 40, accuracy: 99 },
-	];
+	const { charCount, history } = useContext(ResultContext);
 
 	return (
 		<section className="p-x-1 p-y-3 m-b-1 rounded-1 flex-center flex-column gap-05">
@@ -49,29 +23,33 @@ function Finish() {
 				style={{
 					display: "grid",
 					gridTemplateColumns:
-						"repeat(auto-fill, minmax(min(100%, 350px), 1fr))",
+						"repeat(auto-fit, minmax(min(100%, 350px), 1fr))",
 				}}
 			>
 				<>
-					<Graph
-						data={data}
-						x="date"
-						y="accuracy"
-						name="Accuracy"
-						barsColor="var(--clr-primary)"
-						barsFill="var(--clr-white)"
-					/>
+					{history && (
+						<Graph
+							data={history}
+							x="date"
+							y="WPM"
+							name="WPM"
+							barsColor="var(--clr-primary)"
+							barsFill="var(--clr-white)"
+						/>
+					)}
 				</>
-				<>
-					<Graph
-						data={data}
-						x="date"
-						y="WPM"
-						name="WPM"
-						barsColor="var(--clr-primary)"
-						barsFill="var(--clr-white)"
-					/>
-				</>
+				{/* <>
+					{history && (
+						<Graph
+							data={history}
+							x="date"
+							y="accuracy"
+							name="Accuracy"
+							barsColor="var(--clr-primary)"
+							barsFill="var(--clr-white)"
+						/>
+					)}
+				</> */}
 			</div>
 			<div className="p-1 flex-center">
 				<button className="btn-primary">Print The Result</button>

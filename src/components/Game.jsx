@@ -17,7 +17,11 @@ function Game() {
 		charCorrectCount,
 		setCharCorrectCount,
 		setWPM, 
-		setAccuracy
+		setAccuracy,
+		WPM, 
+		accuracy,
+		history,
+		setHistory
 	} = useContext(ResultContext);
 	const game = useRef();
 

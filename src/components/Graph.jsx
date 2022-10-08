@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 function Graph({
 	data,
@@ -8,16 +8,37 @@ function Graph({
 	barsColor = "skyblue",
 	barsFill = "black",
 }) {
-	const DATA = data.slice(-14);
-	const xValues = [...DATA.map((item) => item[x])];
-	const yValues = [...DATA.map((item) => item[y])];
-	const MIN = Math.min(...yValues) - 2;
-	const MAX = Math.max(...yValues) + 2;
+	const [DATA] = useState(data.slice(-14));
+	const [xValues, setXValues] = useState();
+	const [yValues, setYValues] = useState();
+	const [MIN, setMIN] = useState(0);
+	const [MAX, setMAX] = useState(0);
 
-	const yDefaultValues = [];
-	for (let i = MIN; i <= MAX; i += Math.floor((MAX - MIN) / 10)) {
-		yDefaultValues.push(i);
-	}
+	useEffect(() => {
+		if (DATA) {
+			setXValues([...DATA.map((item) => item[x])]);
+			setYValues([...DATA.map((item) => item[y])]);
+		}
+	}, [DATA]);
+
+	useEffect(() => {
+		if (yValues) {
+			setMIN(Math.min(...yValues) - 2);
+			setMAX(Math.max(...yValues) - 2);
+		}
+	}, [yValues]);
+
+	const [yDefaultValues, setYDefaultValues] = useState([]);
+
+	const INCREASE_BY = Math.round((MAX - MIN) / 10);
+
+	useEffect(() => {
+		for (let i = MIN; i <= MAX; i += INCREASE_BY) {
+			setYDefaultValues((prev) => [...new Set([...prev, i])]);
+		}
+	}, [MIN, MAX]);
+
+	if (!data) return;
 
 	return (
 		<div
@@ -45,11 +66,12 @@ function Graph({
 						listStyle: "none",
 					}}
 				>
-					{yDefaultValues.map((item, i) => (
-						<li key={i} style={{ fontSize: ".75rem" }}>
-							{item}
-						</li>
-					))}
+					{yDefaultValues &&
+						yDefaultValues.map((item, i) => (
+							<li key={i} style={{ fontSize: ".75rem" }}>
+								{item}
+							</li>
+						))}
 				</ul>
 			</div>
 			{/* Main Bars */}
@@ -62,8 +84,8 @@ function Graph({
 						transform: "translate(-50%, -50%)",
 						opacity: 0.5,
 						fontSize: "4rem",
-                  textOverflow: "wrap",
-                  isolation: "isolate",
+						textOverflow: "wrap",
+						isolation: "isolate",
 						zIndex: 1,
 					}}
 				>
@@ -83,24 +105,26 @@ function Graph({
 						borderInlineStart: "1px dashed",
 					}}
 				>
-					{yValues.map((item, i) => (
-						<li
-							key={i}
-							style={{
-								fontSize: ".75rem",
-								padding: ".125rem",
-								height: `${((item - MIN) / (MAX - MIN)) * 100}%`,
-								backgroundColor: barsColor,
-								color: barsFill,
-                        zIndex: 3,
-                        borderTopLeftRadius: "0.5vmin",
-                        borderTopRightRadius: "0.5vmin",
-                        animation: "0.75s ease 0s 1 normal none running tall"
-							}}
-						>
-							{item}
-						</li>
-					))}
+					{yValues &&
+						yValues.map((item, i) => (
+							<li
+								key={i}
+								style={{
+									fontSize: ".75rem",
+									padding: ".125rem",
+									height: `${((item - MIN) / (MAX - MIN)) * 100}%`,
+									backgroundColor: barsColor,
+									color: barsFill,
+									zIndex: 3,
+									borderTopLeftRadius: "0.5vmin",
+									borderTopRightRadius: "0.5vmin",
+									animation:
+										"0.75s ease 0s 1 normal none running tall",
+								}}
+							>
+								{item}
+							</li>
+						))}
 				</ul>
 			</div>
 			{/* Name */}
@@ -112,7 +136,12 @@ function Graph({
 					alignItems: "flex-start",
 				}}
 			>
-				<span style={{ transform: "rotate(-45deg)", padding: ".25rem" }}>
+				<span
+					style={{
+						transform: "rotate(-45deg)",
+						padding: ".25rem",
+					}}
+				>
 					{name}
 				</span>
 			</div>
@@ -126,19 +155,20 @@ function Graph({
 						listStyle: "none",
 					}}
 				>
-					{xValues.map((item, i) => (
-						<li
-							key={i}
-							style={{
-								writingMode: "vertical-lr",
-								padding: ".125rem",
-								fontSize: ".75rem",
-								rotate: "-45deg",
-							}}
-						>
-							{item}
-						</li>
-					))}
+					{xValues &&
+						xValues.map((item, i) => (
+							<li
+								key={i}
+								style={{
+									writingMode: "vertical-lr",
+									padding: ".125rem",
+									fontSize: ".75rem",
+									rotate: "-45deg",
+								}}
+							>
+								{item}
+							</li>
+						))}
 				</ul>
 			</div>
 		</div>

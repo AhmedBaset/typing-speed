@@ -18,22 +18,64 @@ function App() {
 	// Set All States
 	const [txt, setTxt] = useState();
 	const [isStart, setIsStart] = useState(false);
-	const [isFinish, setIsFinish] = useState(true);
+	const [isFinish, setIsFinish] = useState(false);
 	const [time, setTime] = useState(0);
 	const [charCount, setCharCount] = useState(0);
 	const [charWrongCount, setCharWrongCount] = useState(0);
 	const [charCorrectCount, setCharCorrectCount] = useState(0);
 	const [WPM, setWPM] = useState(0);
 	const [accuracy, setAccuracy] = useState(0);
-	const [dark, setDark] = useState(localStorage.getItem("darkTheme") === "dark" || false);
-	// const [history, setHistory] = useState(JSON.parse(localStorage.getItem("history")) || []);
+	const [dark, setDark] = useState(
+		localStorage.getItem("darkTheme") === "dark" || false
+	);
+	const [history, setHistory] = useState([]);
+	const [historyStorage, setHistoryStorage] = useState(
+		localStorage.getItem("history") || '[]'
+	);
+
+	useEffect(() => {
+		if (history !== JSON.parse(historyStorage)) {
+			setHistory(JSON.parse(historyStorage));
+		}
+	}, []);
+
+	useEffect(()=> {
+		console.log("History \n", history);
+		console.log("History Storage \n", historyStorage);
+	}, [history, historyStorage])
+
+	// Save the result to localStorage
+	useEffect(() => {
+		if (isFinish) {
+			setHistory((previous) => {
+				return [
+					...previous,
+					{
+						date: new Date().toLocaleString(),
+						WPM: WPM,
+						accuracy: accuracy,
+					},
+				];
+			});
+		}
+	}, [isFinish]);
+
+	useEffect(() => {
+		if (historyStorage !== JSON.stringify(history) && history) {
+			setHistoryStorage(JSON.stringify(history));
+		}
+	}, [history]);
+
+	useEffect(() => {
+		localStorage.setItem("history", historyStorage);
+	}, [historyStorage])
 
 	// set Word Per Minutes
-	useEffect(()=> {
+	useEffect(() => {
 		setWPM((v) => Math.round((60 / time) * (charCorrectCount / 5)));
 		setAccuracy((v) => Math.round((charCorrectCount / charCount) * 100));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [charCorrectCount])
+	}, [charCorrectCount]);
 
 	// Toggle style Light & Dark theme
 	if (!dark) {
@@ -53,14 +95,15 @@ function App() {
 	// To make screen red when type wrong
 	document.body.style.backgroundColor = "hsla(4, 88%, 90%, 0.5)";
 
-	useEffect(()=> {
-		localStorage.setItem("darkTheme", dark ? "dark" : "light")
-	}, [dark])
+	useEffect(() => {
+		localStorage.setItem("darkTheme", dark ? "dark" : "light");
+	}, [dark]);
 
 	// Script Text:
 	useEffect(() => {
 		if (isStart) {
-			setTxt(texts[Math.floor(Math.random() * texts.length)].split(""));
+			// setTxt(texts[Math.floor(Math.random() * texts.length)].split(""));
+			setTxt("I am ahmed abdelbaset, I am from Egypt".split(""));
 		}
 	}, [isStart]);
 
@@ -94,6 +137,8 @@ function App() {
 				accuracy,
 				setWPM,
 				setAccuracy,
+				history,
+				setHistory,
 				dark,
 				setDark,
 			}}
@@ -101,7 +146,7 @@ function App() {
 			<div className="flex-column" style={{ minHeight: window.innerHeight }}>
 				<NavBar />
 				<div className="container flex-grow-1">
-					{(
+					{
 						<div
 							style={{
 								position: "fixed",
@@ -117,7 +162,7 @@ function App() {
 								}`,
 							}}
 						></div>
-					)}
+					}
 					{!isFinish && <LiveResults />}
 					<Game />
 				</div>
