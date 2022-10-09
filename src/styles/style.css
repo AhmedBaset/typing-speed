@@ -106,8 +106,11 @@ input:focus {
 	box-shadow: 0 0 0 5px var(--box-shadow);
 	outline: none;
 }
-.btn-warning {background-color: var(--clr-warning-dark); color: black; border-color: var(--clr-warning-dark);}
-
+.btn-warning {
+	background-color: var(--clr-warning-dark);
+	color: black;
+	border-color: var(--clr-warning-dark);
+}
 
 nav,
 .nav {
@@ -283,6 +286,24 @@ nav li,
 .border-x-between:not(:last-child) {
 	border-inline-end: 1px dashed var(--clr-primary);
 }
+@media (max-width: 769px) {
+	.border-x-between:nth-child(3) {
+		border-inline-end: none;
+	}
+}
+@media (max-width: 605px) {
+	.border-x-between:nth-child(2) {
+		border-inline-end: none;
+	}
+	.border-x-between:nth-child(3) {
+		border-inline-end: 1px dashed var(--clr-primary);
+	}
+}
+@media (max-width: 426px) {
+	.border-x-between {
+		border-inline-end: none !important;
+	}
+}
 .text-center {
 	text-align: center;
 }
@@ -378,8 +399,9 @@ input {
 input::placeholder {
 	color: var(--clr-black);
 }
-body, section {
-	transition: background .1s, color .03s;
+body,
+section {
+	transition: background 0.1s, color 0.03s;
 }
 section {
 	margin-top: 1rem;
@@ -389,7 +411,7 @@ section {
 	border-radius: 1vmin;
 }
 .char {
-	margin: .01rem;
+	margin: 0.01rem;
 }
 .char:focus {
 	background: var(--clr-primary-light);
@@ -442,7 +464,7 @@ label div {
 	font-family: tahoma;
 	box-sizing: border-box;
 	cursor: pointer;
-	transition: .3s;
+	transition: 0.3s;
 }
 label span:not(.switch) {
 	flex: 1 1 50%;
@@ -477,5 +499,7 @@ label input:checked ~ div {
 }
 
 @keyframes tall {
-	0% { height: 0; }
+	0% {
+		height: 0;
+	}
 }
