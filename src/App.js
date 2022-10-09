@@ -13,7 +13,7 @@ let metaThemeColor = document.querySelector('meta[name="theme-color"]');
 if (metaThemeColor == null || metaThemeColor.content === "") {
 	let metaTag = document.createElement("meta");
 	metaTag.setAttribute("name", "theme-color");
-	metaTag.setAttribute("content", primaryColor);
+	metaTag.setAttribute("content", "#00929f");
 	document.head.appendChild(metaTag);
 }
 
