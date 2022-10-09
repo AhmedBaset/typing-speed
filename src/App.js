@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect } from "react";
 import Game from "./components/Game";
 import LiveResults from "./components/LiveResults";
 import NavBar from "./components/NavBar";
-import "./styles/stylish/stylish";
 import texts from "./texts";
 
 // CSS colors
@@ -10,6 +9,14 @@ document.body.style.setProperty("--clr-primary", "hsl(185, 100%, 40%)");
 document.body.style.setProperty("--clr-primary-light", "hsl(185, 100%, 85%)");
 document.body.style.setProperty("--clr-primary-dark", "hsl(185, 100%, 20%)");
 document.body.style.setProperty("--font-family", `'Noto Sans JP', sans-serif`);
+let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+if (metaThemeColor == null || metaThemeColor.content === "") {
+	let metaTag = document.createElement("meta");
+	metaTag.setAttribute("name", "theme-color");
+	metaTag.setAttribute("content", primaryColor);
+	document.head.appendChild(metaTag);
+}
+
 
 // Export the Context
 export const ResultContext = createContext();
