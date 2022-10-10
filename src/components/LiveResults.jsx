@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ResultContext } from "./../App";
 
 function LiveResults() {
-	const { time, charCount, charCorrectCount, WPM, accuracy } = useContext(ResultContext);
+	const { time, charCount, WPM, accuracy } = useContext(ResultContext);
 
 	// The time style
 	let t =

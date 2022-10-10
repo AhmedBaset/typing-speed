@@ -17,9 +17,11 @@ function Graph({
 		if (DATA.length !== history.slice(-15).length) {
 			setData((prev) => [
 				...prev,
-				{ date: new Date().toLocaleString(), WPM: WPM, accuracy: accuracy },
+				{ date: new Date().toDateString(), WPM: WPM, accuracy: accuracy },
 			]);
 		}
+
+		// eslint-disable-next-line
 	}, [history]);
 
 	const [xValues, setXValues] = useState();
@@ -30,6 +32,8 @@ function Graph({
 	useEffect(() => {
 		setXValues([...DATA.map((item) => item[x])]);
 		setYValues([...DATA.map((item) => item[y])]);
+
+		// eslint-disable-next-line
 	}, [DATA]);
 
 	useEffect(() => {
@@ -43,22 +47,6 @@ function Graph({
 
 	const INCREASE_BY = Math.round((MAX - MIN) / 10) || 1;
 
-	// MAX - MIN >= 90
-	// 	? 10
-	// 	: MAX - MIN >= 80
-	// 	? 7
-	// 	: MAX - MIN >= 75
-	// 	? 6
-	// 	: MAX - MIN >= 60
-	// 	? 5
-	// 	: MAX - MIN >= 45
-	// 	? 4
-	// 	: MAX - MIN >= 30
-	// 	? 3
-	// 	: MAX - MIN >= 15
-	// 	? 2
-	// 	: 1;
-
 	useEffect(() => {
 		const set = new Set();
 		set.add(MIN);
@@ -66,6 +54,8 @@ function Graph({
 			set.add(i);
 		}
 		setYDefaultValues([...set]);
+
+		// eslint-disable-next-line
 	}, [MIN, MAX]);
 
 	if (!DATA) return;

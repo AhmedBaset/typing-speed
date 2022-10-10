@@ -44,6 +44,8 @@ function App() {
 		if (history !== JSON.parse(historyStorage)) {
 			setHistory(JSON.parse(historyStorage));
 		}
+		
+		// eslint-disable-next-line
 	}, []);
 
 	// useEffect(()=> {
@@ -58,19 +60,21 @@ function App() {
 				return [
 					...previous,
 					{
-						date: new Date().toLocaleString(),
+						date: new Date().toDateString(),
 						WPM: WPM,
 						accuracy: accuracy,
 					},
 				];
 			});
 		}
+		// eslint-disable-next-line
 	}, [isFinish]);
 
 	useEffect(() => {
 		if (historyStorage !== JSON.stringify(history) && history) {
 			setHistoryStorage(JSON.stringify(history));
 		}
+		// eslint-disable-next-line
 	}, [history]);
 
 	useEffect(() => {
