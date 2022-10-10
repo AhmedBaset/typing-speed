@@ -230,7 +230,7 @@ function Graph({
 									writingMode: "vertical-lr",
 									padding: ".125rem",
 									fontSize: ".75rem",
-									transform: "rotate(-45deg)",
+									transform: "rotate(45deg)",
 									transformOrigin: "top",
 								}}
 							>
